@@ -261,6 +261,7 @@ const LeftNav = React.createClass({
         left: 0,
         top: 0,
         transform: `translate3d(${x}px, 0, 0)`,
+        WebkitTransform: `translate3d(${x}px, 0, 0)`,
         transition: !this.state.swiping && Transitions.easeOut(null, 'transform', null),
         backgroundColor: theme.color,
         overflow: 'auto',
