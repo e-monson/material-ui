@@ -100,11 +100,13 @@ const TextFieldUnderline = (props) => {
       borderBottom: 'solid 2px',
       borderColor: focusColor,
       transform: 'scaleX(0)',
+      WebkitTransform: 'scaleX(0)',
       transition: Transitions.easeOut(),
     },
     error: {
       borderColor: errorStyleColor ? errorStyleColor : errorColor,
       transform: 'scaleX(1)',
+      WebkitTransform: 'scaleX(1)',
     },
   };
 
@@ -112,7 +114,7 @@ const TextFieldUnderline = (props) => {
   let focusedUnderline = mergeStyles(underline, styles.focus, focusStyle);
 
   if (disabled) underline = mergeStyles(underline, styles.disabled, disabledStyle);
-  if (focus) focusedUnderline = mergeStyles(focusedUnderline, {transform: 'scaleX(1)'});
+  if (focus) focusedUnderline = mergeStyles(focusedUnderline, {transform: 'scaleX(1)', WebkitTransform: 'scaleX(1)'});
   if (error) focusedUnderline = mergeStyles(focusedUnderline, styles.error);
 
   return (

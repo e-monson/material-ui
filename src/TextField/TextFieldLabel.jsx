@@ -71,9 +71,11 @@ const TextFieldLabel = (props) => {
       zIndex: 1, // Needed to display label above Chrome's autocomplete field background
       cursor: disabled ? 'default' : 'text',
       transform: shrink
+      WebkitTransform: shrink
         ? 'perspective(1px) scale(0.75) translate3d(2px, -28px, 0)'
         : 'scale(1) translate3d(0, 0, 0)',
       transformOrigin: 'left top',
+      WebkitTransformOrigin: 'left top',
       pointerEvents: shrink ? 'none' : 'auto',
       userSelect: 'none',
     },
