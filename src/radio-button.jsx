@@ -106,23 +106,28 @@ const RadioButton = React.createClass({
         position: 'absolute',
         opacity: 1,
         transform: 'scale(1)',
+        WebkitTransform: 'scale(1)',
         fill: this.getTheme().borderColor,
       },
       fill: {
         position: 'absolute',
         opacity: 1,
         transform: 'scale(0)',
+        WebkitTransform: 'scale(0)',
         transformOrigin: '50% 50%',
+        WebkitTransformOrigin: '50% 50%',
         transition: Transitions.easeOut(),
         fill: this.getTheme().checkedColor,
       },
       targetWhenChecked: {
         opacity: 0,
         transform: 'scale(0)',
+        WebkitTransform: 'scale(0)',
       },
       fillWhenChecked: {
         opacity: 1,
         transform: 'scale(1)',
+        WebkitTransform: 'scale(1)',
       },
       targetWhenDisabled: {
         fill: this.getTheme().disabledColor,
