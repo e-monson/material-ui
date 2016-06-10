@@ -39,7 +39,7 @@ function generatePropType(type) {
       return type.raw;
 
     case 'enum':
-      const values = type.value.map(v => v.value).join('<br>&nbsp;');
+      const values = type.value.map((v) => v.value).join('<br>&nbsp;');
       return `enum:<br>&nbsp;${values}<br>`;
 
     default:
@@ -64,13 +64,15 @@ function generateDescription(required, description, type) {
   // must be eliminated to prevent markdown mayhem.
   const jsDocText = parsed.description.replace(/\n\n/g, '<br>').replace(/\n/g, ' ');
 
+  if (parsed.tags.some((tag) => tag.title === 'ignore')) return null;
+
   let signature = '';
 
   if (type.name === 'func' && parsed.tags.length > 0) {
     signature += '<br><br>**Signature:**<br>`function(';
-    signature += parsed.tags.map(tag => `${tag.name}: ${tag.type.name}`).join(', ');
+    signature += parsed.tags.map((tag) => `${tag.name}: ${tag.type.name}`).join(', ');
     signature += ') => void`<br>';
-    signature += parsed.tags.map(tag => `*${tag.name}:* ${tag.description}`).join('<br>');
+    signature += parsed.tags.map((tag) => `*${tag.name}:* ${tag.description}`).join('<br>');
   }
 
   return `${deprecated} ${jsDocText}${signature}`;
@@ -106,6 +108,10 @@ const PropTypeDescription = React.createClass({
     for (let key in componentInfo.props) {
       const prop = componentInfo.props[key];
 
+      const description = generateDescription(prop.required, prop.description, prop.type);
+
+      if (description === null) continue;
+
       let defaultValue = '';
 
       if (prop.defaultValue) {
@@ -122,8 +128,6 @@ const PropTypeDescription = React.createClass({
           key = `~~${key}~~`;
         }
       }
-
-      const description = generateDescription(prop.required, prop.description, prop.type);
 
       text += `| ${key} | ${generatePropType(prop.type)} | ${defaultValue} | ${description} |\n`;
     }

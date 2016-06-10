@@ -1,6 +1,5 @@
 import React from 'react';
 import Transitions from '../styles/transitions';
-import {mergeStyles, prepareStyles} from '../utils/styles';
 
 const propTypes = {
   /**
@@ -34,6 +33,7 @@ const propTypes = {
   focusStyle: React.PropTypes.object,
 
   /**
+   * @ignore
    * The material-ui theme applied to this component.
    */
   muiTheme: React.PropTypes.object.isRequired,
@@ -72,6 +72,7 @@ const TextFieldUnderline = (props) => {
   } = errorStyle;
 
   const {
+    prepareStyles,
     textField: {
       borderColor,
       disabledTextColor,
@@ -110,17 +111,17 @@ const TextFieldUnderline = (props) => {
     },
   };
 
-  let underline = mergeStyles(styles.root, style);
-  let focusedUnderline = mergeStyles(underline, styles.focus, focusStyle);
+  let underline = Object.assign({}, styles.root, style);
+  let focusedUnderline = Object.assign({}, underline, styles.focus, focusStyle);
 
-  if (disabled) underline = mergeStyles(underline, styles.disabled, disabledStyle);
-  if (focus) focusedUnderline = mergeStyles(focusedUnderline, {transform: 'scaleX(1)', WebkitTransform: 'scaleX(1)'});
-  if (error) focusedUnderline = mergeStyles(focusedUnderline, styles.error);
+  if (disabled) underline = Object.assign({}, underline, styles.disabled, disabledStyle);
+  if (focus) focusedUnderline = Object.assign({}, focusedUnderline, {transform: 'scaleX(1)'});
+  if (error) focusedUnderline = Object.assign({}, focusedUnderline, styles.error);
 
   return (
     <div>
-      <hr style={prepareStyles(muiTheme, underline)}/>
-      <hr style={prepareStyles(muiTheme, focusedUnderline)}/>
+      <hr style={prepareStyles(underline)}/>
+      <hr style={prepareStyles(focusedUnderline)}/>
     </div>
   );
 };

@@ -1,4 +1,6 @@
 import React from 'react';
+import Title from 'react-title-component';
+
 import CodeExample from '../../../CodeExample';
 import PropTypeDescription from '../../../PropTypeDescription';
 import MarkdownElement from '../../../MarkdownElement';
@@ -28,7 +30,7 @@ import ListExampleSelectable from './ExampleSelectable.jsx';
 
 const descriptions = {
   simple: 'A simple `List` with left and right [SVG icons](/#/components/svg-icon).',
-  chat: 'A chat list with Image [Avatars](/#/components/avatar) and List `subheaders`.',
+  chat: 'A chat list with Image [Avatars](/#/components/avatar) and [Subheader](/#/components/subheader).',
   contacts: 'Similar to the Chat List example, but with Text [Avatars](/#/components/avatar) ' +
   '(with transparent background) for section labeling, and an inset Divider. ',
   folders: 'The folder list uses Icon [Avatars](/#/components/avatar), and introduces `secondaryText`.',
@@ -42,6 +44,7 @@ const descriptions = {
 
 const ListPage = () => (
   <div>
+    <Title render={(previousTitle) => `List - ${previousTitle}`} />
     <MarkdownElement text={listReadmeText} />
     <CodeExample
       title="Simple list"

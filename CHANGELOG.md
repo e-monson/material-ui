@@ -1,5 +1,29 @@
 ## HEAD
 
+##### Breaking Changes
+- Remove the deprecated API of `0.14.x`. (#3108)
+- [FloatingActionButton] Fix:className now set to root element(#2310)
+- [RaisedButton] Fix:className now set to root element(#3122)
+- [LeftNav] Fix:className and `style` now set to root element(#3322)
+
+## 0.14.4
+###### _Feb 02, 2016_
+
+##### General
+- [CRITICAL] Fixed a regression that completely disabled the auto-prefixer (#3142)
+- [Docs] Contributing guide (#3075)
+- [Docs] Added a `Related Projects` section (#3102)
+- [Examples] General updates (#3078)
+
+##### Component Fixes / Enhancements
+- [Tabs] Removed the calc style property (#3058)
+- [Tabs] Added icon and text (#3042)
+- [Tabs] Use `FlatButtons` for tabs (#3051)
+- [AutoComplete] Fixed regression of undefined muiTheme (#3069)
+- [List] Auto-expand SelectableList (#3039)
+- [DatePicker] Added `disabled` property (#3060)
+- [Buttons] Fixed the vertical alignment issue (#3100)
+
 ## 0.14.3
 ###### _Jan 26, 2016_
 

@@ -18,13 +18,13 @@ const styles = {
 
 const FlatButtonExampleComplex = () => (
   <div>
-    <FlatButton label="Choose an Image">
+    <FlatButton label="Choose an Image" labelPosition="before">
       <input type="file" style={styles.exampleImageInput} />
     </FlatButton>
 
     <FlatButton
-      label="Label after"
-      labelPosition="after"
+      label="Label before"
+      labelPosition="before"
       primary={true}
       style={styles.button}
       icon={<ActionAndroid />}

@@ -1,13 +1,8 @@
 import React from 'react';
-import StylePropable from '../mixins/style-propable';
-import WindowListenable from '../mixins/window-listenable';
 import DateTime from '../utils/date-time';
 import DatePickerDialog from './date-picker-dialog';
 import TextField from '../text-field';
-import ThemeManager from '../styles/theme-manager';
-import DefaultRawTheme from '../styles/raw-themes/light-raw-theme';
-import deprecated from '../utils/deprecatedPropType';
-import warning from 'warning';
+import getMuiTheme from '../styles/getMuiTheme';
 
 const DatePicker = React.createClass({
 
@@ -41,6 +36,11 @@ const DatePicker = React.createClass({
      * Disables the year selection in the date picker.
      */
     disableYearSelection: React.PropTypes.bool,
+
+    /**
+     * Disables the DatePicker.
+     */
+    disabled: React.PropTypes.bool,
 
     /**
      * Used to change the first day of week. It drastically varies from
@@ -114,12 +114,6 @@ const DatePicker = React.createClass({
     shouldDisableDate: React.PropTypes.func,
 
     /**
-     *  Enables the year selection in the date picker.
-     */
-    showYearSelector: deprecated(React.PropTypes.bool,
-          'Instead, use disableYearSelection.'),
-
-    /**
      * Override the inline-styles of the root element.
      */
     style: React.PropTypes.object,
@@ -149,15 +143,9 @@ const DatePicker = React.createClass({
     muiTheme: React.PropTypes.object,
   },
 
-  //for passing default theme context to children
   childContextTypes: {
     muiTheme: React.PropTypes.object,
   },
-
-  mixins: [
-    StylePropable,
-    WindowListenable,
-  ],
 
   getDefaultProps() {
     return {
@@ -166,6 +154,7 @@ const DatePicker = React.createClass({
       disableYearSelection: false,
       style: {},
       firstDayOfWeek: 0,
+      disabled: false,
     };
   },
 
@@ -173,7 +162,7 @@ const DatePicker = React.createClass({
     return {
       date: this._isControlled() ? this._getControlledDate() : this.props.defaultDate,
       dialogDate: new Date(),
-      muiTheme: this.context.muiTheme ? this.context.muiTheme : ThemeManager.getMuiTheme(DefaultRawTheme),
+      muiTheme: this.context.muiTheme || getMuiTheme(),
     };
   },
 
@@ -184,12 +173,12 @@ const DatePicker = React.createClass({
   },
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if (nextContext.muiTheme) {
-      this.setState({muiTheme: nextContext.muiTheme});
-    }
+    this.setState({
+      muiTheme: nextContext.muiTheme || this.state.muiTheme,
+    });
 
     if (this._isControlled()) {
-      let newDate = this._getControlledDate(nextProps);
+      const newDate = this._getControlledDate(nextProps);
       if (!DateTime.isEqualDate(this.state.date, newDate)) {
         this.setState({
           date: newDate,
@@ -198,21 +187,8 @@ const DatePicker = React.createClass({
     }
   },
 
-  windowListeners: {
-    keyup: '_handleWindowKeyUp',
-  },
-
   getDate() {
     return this.state.date;
-  },
-
-  setDate(date) {
-    warning(false, `setDate() method is deprecated. Use the defaultDate property instead.
-      Or use the DatePicker as a controlled component with the value property.`);
-
-    this.setState({
-      date: date,
-    });
   },
 
   /**
@@ -249,13 +225,10 @@ const DatePicker = React.createClass({
   _handleInputTouchTap: function _handleInputTouchTap(event) {
     if (this.props.onTouchTap) this.props.onTouchTap(event);
 
-    setTimeout(() => {
-      this.openDialog();
-    }, 0);
-  },
-
-  _handleWindowKeyUp() {
-    //TO DO: open the dialog if input has focus
+    if (!this.props.disabled)
+      setTimeout(() => {
+        this.openDialog();
+      }, 0);
   },
 
   _isControlled() {
@@ -272,7 +245,7 @@ const DatePicker = React.createClass({
   },
 
   render() {
-    let {
+    const {
       container,
       DateTimeFormat,
       locale,
@@ -295,8 +268,12 @@ const DatePicker = React.createClass({
       ...other,
     } = this.props;
 
+    const {
+      prepareStyles,
+    } = this.state.muiTheme;
+
     return (
-      <div style={this.prepareStyles(style)}>
+      <div style={prepareStyles(Object.assign({}, style))}>
         <TextField
           {...other}
           style={textFieldStyle}

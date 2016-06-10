@@ -1,9 +1,9 @@
 import React from 'react';
 import Transitions from '../styles/transitions';
-import {mergeStyles, prepareStyles} from '../utils/styles';
 
 const propTypes = {
   /**
+   * @ignore
    * The material-ui theme applied to this component.
    */
   muiTheme: React.PropTypes.object.isRequired,
@@ -83,10 +83,14 @@ const TextFieldLabel = (props) => {
     },
   };
 
+  const {
+    prepareStyles,
+  } = muiTheme;
+
   return (
     <label
       className={className}
-      style={prepareStyles(muiTheme, mergeStyles(styles.root, style))}
+      style={prepareStyles(Object.assign({}, styles.root, style))}
       htmlFor={htmlFor}
       onTouchTap={onTouchTap}
     >

@@ -1,9 +1,9 @@
 import React from 'react';
 import Transitions from '../styles/transitions';
-import {mergeStyles, prepareStyles} from '../utils/styles';
 
 const propTypes = {
   /**
+   * @ignore
    * The material-ui theme applied to this component.
    */
   muiTheme: React.PropTypes.object.isRequired,
@@ -38,6 +38,7 @@ const TextFieldHint = (props) => {
   } = props;
 
   const {
+    prepareStyles,
     textField: {
       hintColor,
     },
@@ -54,7 +55,7 @@ const TextFieldHint = (props) => {
   };
 
   return (
-    <div style={prepareStyles(muiTheme, mergeStyles(styles.root, style))}>
+    <div style={prepareStyles(Object.assign({}, styles.root, style))}>
       {text}
     </div>
   );

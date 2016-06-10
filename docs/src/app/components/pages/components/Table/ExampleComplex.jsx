@@ -67,6 +67,7 @@ export default class TableExampleComplex extends React.Component {
       multiSelectable: false,
       enableSelectAll: false,
       deselectOnClickaway: true,
+      showCheckboxes: true,
       height: '300px',
     };
   }
@@ -92,7 +93,11 @@ export default class TableExampleComplex extends React.Component {
           multiSelectable={this.state.multiSelectable}
           onRowSelection={this._onRowSelection}
         >
-          <TableHeader enableSelectAll={this.state.enableSelectAll}>
+          <TableHeader
+            displaySelectAll={this.state.showCheckboxes}
+            adjustForCheckbox={this.state.showCheckboxes}
+            enableSelectAll={this.state.enableSelectAll}
+          >
             <TableRow>
               <TableHeaderColumn colSpan="3" tooltip="Super Header" style={{textAlign: 'center'}}>
                 Super Header
@@ -105,19 +110,22 @@ export default class TableExampleComplex extends React.Component {
             </TableRow>
           </TableHeader>
           <TableBody
+            displayRowCheckbox={this.state.showCheckboxes}
             deselectOnClickaway={this.state.deselectOnClickaway}
             showRowHover={this.state.showRowHover}
             stripedRows={this.state.stripedRows}
           >
-            {tableData.map( row => (
-              <TableRow selected={row.selected}>
-                <TableRowColumn>{row.index}</TableRowColumn>
+            {tableData.map( (row, index) => (
+              <TableRow key={index} selected={row.selected}>
+                <TableRowColumn>{index}</TableRowColumn>
                 <TableRowColumn>{row.name}</TableRowColumn>
                 <TableRowColumn>{row.status}</TableRowColumn>
               </TableRow>
               ))}
           </TableBody>
-          <TableFooter>
+          <TableFooter
+            adjustForCheckbox={this.state.showCheckboxes}
+          >
             <TableRow>
               <TableRowColumn>ID</TableRowColumn>
               <TableRowColumn>Name</TableRowColumn>
@@ -186,6 +194,13 @@ export default class TableExampleComplex extends React.Component {
             label="Show Row Hover"
             onToggle={this.handleToggle}
             defaultToggled={this.state.showRowHover}
+          />
+          <h3 style={styles.propToggleHeader}>Multiple Properties</h3>
+          <Toggle
+            name="showCheckboxes"
+            label="Show Checkboxes"
+            onToggle={this.handleToggle}
+            defaultToggled={this.state.showCheckboxes}
           />
         </div>
       </div>
